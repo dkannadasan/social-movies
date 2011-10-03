@@ -58,6 +58,37 @@ var userInfo;
         document.getElementById('fb-root').appendChild(e);
     }());
 	
+	 //stream publish method
+            function streamPublish(name, description, hrefTitle, hrefLink, userPrompt){
+                showLoader(true);
+                FB.ui(
+                {
+                    method: 'stream.publish',
+                    message: '',
+                    attachment: {
+                        name: name,
+                        caption: '',
+                        description: (description),
+                        href: hrefLink
+                    },
+                    action_links: [
+                        { text: hrefTitle, href: hrefLink }
+                    ],
+                    user_prompt_message: userPrompt
+                },
+                function(response) {
+                    showLoader(false);
+                });
+
+            }
+            function showStream(){
+                FB.api('/me', function(response) {
+                    //console.log(response.id);
+                    streamPublish(response.name, 'I like the articles of Thinkdiff.net', 'hrefTitle', 'http://thinkdiff.net', "Share thinkdiff.net");
+                });
+            }
+			
+	
 	function graphStreamPublish(){
         showLoader(true);
  
@@ -72,13 +103,13 @@ var userInfo;
         },
         function(response) {
             showLoader(false);
- 
+         alert(response.error);
             if (!response || response.error) {
                 alert('Error occured');
             } else {
                 alert('Post ID: ' + response.id);
             }
-        });
+        });alert("End")
 		
     }
 	
@@ -91,11 +122,11 @@ var userInfo;
 
 </script>
 
-
+<body onload="showLoader(false)">
 <h1>Listing movies</h1>
 <div id="fb-root"></div>
 <div id="loader" style="display:none">
-            <img src="ajax-loader.gif" alt="loading" />
+  <img src="ajax-loader.gif" alt="loading" />
 </div>
 <table>
   <tr>
@@ -112,7 +143,7 @@ var userInfo;
     <td>Jurassic Park</td>
     <td>Adventure</td>
     <td>2001</td>
-    <td><button type="button" onclick="graphStreamPublish()">Post your watch in Facebook!</button><td>
+    <td><button type="button" onclick="showStream(); return false;">Post your watch in Facebook!</button><td>
  </tr>
  
  <tr>
@@ -135,6 +166,6 @@ var userInfo;
 
 
 <br />
-
+</body>
 
 </html>
