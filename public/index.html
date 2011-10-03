@@ -2,7 +2,8 @@
 <html xmlns:fb="https://www.facebook.com/2008/fbml">
 <script src="http://connect.facebook.net/en_US/all.js"></script>
 <script language="javascript" type="text/javascript">
-
+var button;
+var userInfo;
     window.fbAsyncInit = function() {
         FB.init({ appId: '237890996260905',
             status: true,
@@ -78,13 +79,24 @@
                 alert('Post ID: ' + response.id);
             }
         });
+		
     }
+	
+	function showLoader(status){
+                if (status)
+                    document.getElementById('loader').style.display = 'block';
+                else
+                    document.getElementById('loader').style.display = 'none';
+            }
 
 </script>
 
 
 <h1>Listing movies</h1>
 <div id="fb-root"></div>
+<div id="loader" style="display:none">
+            <img src="ajax-loader.gif" alt="loading" />
+</div>
 <table>
   <tr>
     <th>Name</th>
