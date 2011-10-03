@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:fb="https://www.facebook.com/2008/fbml">
+<script src="http://connect.facebook.net/en_US/all.js"></script>
+<script language="javascript" type="text/javascript">
+
+    window.fbAsyncInit = function() {
+        FB.init({ appId: '237890996260905',
+            status: true,
+            cookie: true,
+            xfbml: true,
+            oauth: true});
+ 
+        showLoader(true);
+ 
+        function updateButton(response) {
+            button       =   document.getElementById('fb-auth');
+            userInfo     =   document.getElementById('user-info');
+ 
+            if (response.authResponse) {
+                //user is already logged in and connected
+                FB.api('/me', function(info) {
+                    login(response, info);
+                });
+ 
+                button.onclick = function() {
+                    FB.logout(function(response) {
+                        logout(response);
+                    });
+                };
+            } else {
+                //user is not connected to your app or logged out
+                button.innerHTML = 'Login';
+                button.onclick = function() {
+                    showLoader(true);
+                    FB.login(function(response) {
+                        if (response.authResponse) {
+                            FB.api('/me', function(info) {
+                                login(response, info);
+                            });
+                        } else {
+                            //user cancelled login or did not grant authorization
+                            showLoader(false);
+                        }
+                    }, {scope:'email,user_birthday,status_update,publish_stream,user_about_me'});
+                }
+            }
+        }
+ 
+        // run once with current status and whenever the status changes
+        FB.getLoginStatus(updateButton);
+        FB.Event.subscribe('auth.statusChange', updateButton);
+    };
+    (function() {
+        var e = document.createElement('script'); e.async = true;
+        e.src = document.location.protocol
+            + '//connect.facebook.net/en_US/all.js';
+        document.getElementById('fb-root').appendChild(e);
+    }());
+	
+	function graphStreamPublish(){
+        showLoader(true);
+ 
+        FB.api('/me/feed', 'post',
+        {
+            message     : "I love thinkdiff.net for facebook app development tutorials",
+            link        : 'http://ithinkdiff.net',
+            picture     : 'http://thinkdiff.net/iphone/lucky7_ios.jpg',
+            name        : 'iOS Apps & Games',
+            description : 'Checkout iOS apps and games from iThinkdiff.net. I found some of them are just awesome!'
+ 
+        },
+        function(response) {
+            showLoader(false);
+ 
+            if (!response || response.error) {
+                alert('Error occured');
+            } else {
+                alert('Post ID: ' + response.id);
+            }
+        });
+    }
+
+</script>
+
+
+<h1>Listing movies</h1>
+<div id="fb-root"></div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Category</th>
+    <th>Releaseddate</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @movies.each do |movie| %>
+  <tr>
+    <td><%= movie.name %></td>
+    <td><%= movie.category %></td>
+    <td><%= movie.releasedDate %></td>
+    <td><%= link_to 'Show', movie %></td>
+    <td><%= link_to 'Edit', edit_movie_path(movie) %></td>
+    <td><%= link_to 'Destroy', movie, :confirm => 'Are you sure?', :method => :delete %></td>
+	<td><button type="button" onclick="graphStreamPublish()">Post your watch in Facebook!</button><td>
+ </tr>
+<% end %>
+</table>
+ <div class="fb-login-button">
+ <fb:login-button autologoutlink="true" onlogin="OnRequestPermission();">
+</fb:login-button>
+
+
+<br />
+
+<%= link_to 'New Movie', new_movie_path %>
+</html>
