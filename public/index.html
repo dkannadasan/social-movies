@@ -59,7 +59,7 @@ var userInfo;
     }());
 	
 	 //stream publish method
-            function streamPublish(name, description, hrefTitle, hrefLink, userPrompt){
+            function streamPublish(name, description, hrefTitle, hrefLink){
                 showLoader(true);
                 FB.ui(
                 {
@@ -74,7 +74,7 @@ var userInfo;
                     action_links: [
                         { text: hrefTitle, href: hrefLink }
                     ],
-                    user_prompt_message: userPrompt
+                    //user_prompt_message: userPrompt
                 },
                 function(response) {
                     showLoader(false);
@@ -84,7 +84,7 @@ var userInfo;
             function showStream(message,movieName){
                 FB.api('/me', function(response) {
                     //console.log(response.id);
-                    //streamPublish(response.name, message, movieName, 'http://glowing-river-3067.heroku.com/', "Share glowing-river-3067.heroku.com/");
+                    streamPublish(response.name, message, movieName, 'http://glowing-river-3067.heroku.com/');
                 });
             }
 			
