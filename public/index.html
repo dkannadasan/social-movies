@@ -81,10 +81,10 @@ var userInfo;
                 });
 
             }
-            function showStream(){
+            function showStream(var message,var movieName){
                 FB.api('/me', function(response) {
                     //console.log(response.id);
-                    streamPublish(response.name, 'I like the articles of Thinkdiff.net', 'hrefTitle', 'http://thinkdiff.net', "Share thinkdiff.net");
+                    streamPublish(response.name, message, 'movieName', 'http://glowing-river-3067.heroku.com/', "Share glowing-river-3067.heroku.com/");
                 });
             }
 			
@@ -123,7 +123,7 @@ var userInfo;
 </script>
 
 <body onload="showLoader(false)">
-<h1>Listing movies</h1>
+<h1>Socialize your Movies watched story</h1>
 <div id="fb-root"></div>
 <div id="loader" style="display:none">
   <img src="ajax-loader.gif" alt="loading" />
@@ -143,26 +143,26 @@ var userInfo;
     <td>Jurassic Park</td>
     <td>Adventure</td>
     <td>2001</td>
-    <td><button type="button" onclick="showStream(); return false;">Post your watch in Facebook!</button><td>
+    <td><button type="button" onclick="showStream('Watched Jurassic Park','Jurassic Park'); return false;">Post your watch in Facebook!</button><td>
  </tr>
  
  <tr>
     <td>Titanic</td>
     <td>Romance</td>
     <td>2001</td>
-    <td><button type="button" onclick="graphStreamPublish()">Post your watch in Facebook!</button><td>
+    <td><button type="button" onclick="showStream('Watched Titanic','Titanic'); return false;">Post your watch in Facebook!</button><td>
  </tr>
  <tr>
     <td>Transporter</td>
     <td>Action</td>
     <td>2001</td>
-    <td><button type="button" onclick="graphStreamPublish()">Post your watch in Facebook!</button><td>
+    <td><button type="button" onclick="showStream('Watched Transporter','Transporter'); return false;">Post your watch in Facebook!</button><td>
  </tr>
 
 </table>
  <div class="fb-login-button">
- <fb:login-button autologoutlink="true" onlogin="OnRequestPermission();">
-</fb:login-button>
+ <!--<fb:login-button autologoutlink="true" onlogin="OnRequestPermission();">
+</fb:login-button>-->
 
 
 <br />
